@@ -33,34 +33,6 @@ Desarrollar un sistema informático funcional que permita gestionar de forma cen
 - PostgreSQL instalado y en ejecución
 - Visual Studio 2022 / VS Code (opcional)
 
-### Pasos
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/Eryworld/ClinicaMVC.git
-   cd ClinicaMVC
-   ```
-2. Crea la base de datos ejecutando `ClinicaDB.sql` en PostgreSQL (pgAdmin o psql).
-   El proyecto **no usa EF Migrations**: el esquema se crea directamente con este script.
-   ```bash
-   psql -U postgres -f ClinicaDB.sql
-   ```
-3. Ajusta la cadena de conexión en `appsettings.json`:
-   ```json
-   "ConnectionStrings": {
-     "ClinicaDB": "Host=localhost;Port=5432;Database=ClinicaDB;Username=postgres;Password=TU_PASSWORD"
-   }
-   ```
-4. Restaura los paquetes NuGet:
-   ```bash
-   dotnet restore
-   ```
-5. Crea tu primer usuario administrador siguiendo `ClinicaDB_seed_usuarios.sql` (necesitas generar un hash BCrypt de tu contraseña; puedes hacerlo con un pequeño script de consola en C# usando `BCrypt.Net.BCrypt.HashPassword("tu_password")`).
-6. Ejecuta el proyecto:
-   ```bash
-   dotnet run
-   ```
-7. Abre el navegador en `https://localhost:5001` (o el puerto que indique la consola) e inicia sesión.
-
 ## Flujo funcional resumido
 1. **Recepcionista/Administrador** registra pacientes y médicos.
 2. **Recepcionista/Administrador** agenda una cita (el sistema valida que el médico no tenga otra cita activa en la misma fecha/hora).
@@ -101,15 +73,6 @@ ClinicaMVC/
 └── ClinicaDB_seed_usuarios.sql  # Script para crear el primer usuario
 ```
 
-## Roles del equipo
-| Rol | Integrante |
-|---|---|
-| Líder del Proyecto | Carlos Daniel Flores |
-| Programador Backend | Robmariel Tejada Gómez |
-| Programador Frontend | Erineldo Osoria Cabrera |
-| Diseñador UI/UX | Ismaira López |
-| Tester | Moisés Santana |
-| Documentador | Mairely De Oleo |
 
 ## Bibliografía
 - Microsoft. (2024). *ASP.NET Core documentation.* https://learn.microsoft.com/aspnet/core/
@@ -121,6 +84,3 @@ ClinicaMVC/
 - BCrypt.Net-Next. (2024). *NuGet package documentation.* https://www.nuget.org/packages/BCrypt.Net-Next/
 - Mermaid. (2024). *Mermaid documentation.* https://mermaid.js.org/
 - Candelario, H. (2026). *Sistemas Propuestos — Trimestre Mayo-Julio 2026, Programación 3.* UAPA.
-
-## Licencia
-Opcional — no definida para esta entrega académica.
