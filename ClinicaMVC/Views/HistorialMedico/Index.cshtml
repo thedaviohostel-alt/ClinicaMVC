@@ -1,0 +1,51 @@
+@model IEnumerable<HistorialMedico>
+@{
+    ViewData["Title"] = "Historial Médico";
+    var paciente = ViewBag.Paciente as Paciente;
+}
+<div class="toolbar">
+    <h2>
+        @if (paciente != null)
+        {
+            <text>Historial médico de @paciente.Nombre</text>
+        }
+        else
+        {
+            <text>Historial Médico (todos los pacientes)</text>
+        }
+    </h2>
+    @if (User.IsInRole("Administrador") || User.IsInRole("Medico"))
+    {
+        <a asp-action="Create" asp-route-idPaciente="@ViewData["IdPaciente"]" class="btn btn-primary">+ Registrar consulta</a>
+    }
+</div>
+
+@if (paciente == null)
+{
+    <form method="get" class="form-group" style="max-width:400px">
+        <input type="number" name="idPaciente" placeholder="ID del paciente..." value="@ViewData["IdPaciente"]" />
+    </form>
+}
+else
+{
+    <p><a asp-controller="Pacientes" asp-action="Details" asp-route-id="@paciente.IdPaciente">Ver ficha del paciente</a></p>
+}
+
+@if (!Model.Any())
+{
+    <p style="margin-top:16px">No hay consultas registradas.</p>
+}
+else
+{
+    @foreach (var h in Model)
+    {
+        <div class="card consulta-block">
+            <h4>@h.FechaConsulta.ToString("dd/MM/yyyy HH:mm") — @h.Paciente?.Nombre</h4>
+            <p><strong>Médico:</strong> @h.Medico?.Nombre</p>
+            <p><strong>Síntomas:</strong> @h.Sintomas</p>
+            <p><strong>Diagnóstico:</strong> @h.Diagnostico</p>
+            <p><strong>Tratamiento:</strong> @h.Tratamiento</p>
+            <a asp-action="Details" asp-route-id="@h.IdHistorial" class="btn btn-secondary btn-sm">Ver detalle</a>
+        </div>
+    }
+}

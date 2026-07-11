@@ -1,27 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClinicaMVC.Models;
-
-public partial class Cita
+namespace ClinicaMVC.Models
 {
-    public int IdCita { get; set; }
+    [Table("citas")]
+    public class Cita
+    {
+        [Key]
+        [Column("id_cita")]
+        public int IdCita { get; set; }
 
-    public int IdPaciente { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un paciente")]
+        [Column("id_paciente")]
+        [Display(Name = "Paciente")]
+        public int IdPaciente { get; set; }
 
-    public int IdMedico { get; set; }
+        [ForeignKey(nameof(IdPaciente))]
+        public Paciente? Paciente { get; set; }
 
-    public DateOnly Fecha { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un médico")]
+        [Column("id_medico")]
+        [Display(Name = "Médico")]
+        public int IdMedico { get; set; }
 
-    public TimeOnly Hora { get; set; }
+        [ForeignKey(nameof(IdMedico))]
+        public Medico? Medico { get; set; }
 
-    public string? Estado { get; set; }
+        [Required(ErrorMessage = "La fecha es obligatoria")]
+        [Column("fecha")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha")]
+        public DateTime Fecha { get; set; }
 
-    public string? Observaciones { get; set; }
+        // TimeOnly se usa (en vez de TimeSpan) porque Npgsql lo mapea de forma nativa
+        // a la columna PostgreSQL "TIME" (TimeSpan se mapearía como "interval").
+        [Required(ErrorMessage = "La hora es obligatoria")]
+        [Column("hora")]
+        [DataType(DataType.Time)]
+        [Display(Name = "Hora")]
+        public TimeOnly Hora { get; set; }
 
-    public virtual ICollection<HistorialMedico> HistorialMedicos { get; set; } = new List<HistorialMedico>();
+        [Column("estado")]
+        [StringLength(20)]
+        public string Estado { get; set; } = EstadosCita.Pendiente;
 
-    public virtual Medico IdMedicoNavigation { get; set; } = null!;
+        [Column("observaciones")]
+        [Display(Name = "Observaciones")]
+        public string? Observaciones { get; set; }
 
-    public virtual Paciente IdPacienteNavigation { get; set; } = null!;
+        public ICollection<HistorialMedico>? HistorialesMedicos { get; set; }
+    }
+
+    // Constantes con los estados definidos en el proyecto (Pendiente, Atendida, Cancelada)
+    public static class EstadosCita
+    {
+        public const string Pendiente = "Pendiente";
+        public const string Atendida = "Atendida";
+        public const string Cancelada = "Cancelada";
+    }
 }

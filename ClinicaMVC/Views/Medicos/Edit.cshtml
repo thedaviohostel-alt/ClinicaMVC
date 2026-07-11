@@ -1,0 +1,39 @@
+@model Medico
+@{
+    ViewData["Title"] = "Editar médico";
+}
+<div class="card" style="max-width:600px">
+    <h2>Editar médico</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="IdMedico" />
+        <input type="hidden" asp-for="FechaRegistro" />
+        <div class="form-group">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cedula"></label>
+            <input asp-for="Cedula" />
+            <span asp-validation-for="Cedula" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Especialidad"></label>
+            <input asp-for="Especialidad" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Telefono"></label>
+            <input asp-for="Telefono" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Turno"></label>
+            <select asp-for="Turno">
+                <option>Mañana</option>
+                <option>Tarde</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

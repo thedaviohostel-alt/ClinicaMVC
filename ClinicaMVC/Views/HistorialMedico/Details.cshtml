@@ -1,0 +1,18 @@
+@model HistorialMedico
+@{
+    ViewData["Title"] = "Detalle de consulta";
+}
+<div class="card" style="max-width:600px">
+    <h2>Consulta #@Model.IdHistorial</h2>
+    <p><strong>Paciente:</strong> @Model.Paciente?.Nombre</p>
+    <p><strong>Médico:</strong> @Model.Medico?.Nombre (@Model.Medico?.Especialidad)</p>
+    <p><strong>Fecha de consulta:</strong> @Model.FechaConsulta.ToString("dd/MM/yyyy HH:mm")</p>
+    @if (Model.Cita != null)
+    {
+        <p><strong>Cita asociada:</strong> #@Model.Cita.IdCita (@Model.Cita.Fecha.ToString("dd/MM/yyyy") @Model.Cita.Hora.ToString("hh\\:mm"))</p>
+    }
+    <p><strong>Síntomas:</strong> @Model.Sintomas</p>
+    <p><strong>Diagnóstico:</strong> @Model.Diagnostico</p>
+    <p><strong>Tratamiento:</strong> @Model.Tratamiento</p>
+    <a asp-action="Index" asp-route-idPaciente="@Model.IdPaciente" class="btn btn-secondary">Volver al historial</a>
+</div>

@@ -1,19 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClinicaMVC.Models;
-
-public partial class Usuario
+namespace ClinicaMVC.Models
 {
-    public int IdUsuario { get; set; }
+    [Table("usuarios")]
+    public class Usuario
+    {
+        [Key]
+        [Column("id_usuario")]
+        public int IdUsuario { get; set; }
 
-    public string NombreUsuario { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre de usuario es obligatorio")]
+        [Column("nombre_usuario")]
+        [StringLength(50)]
+        public string NombreUsuario { get; set; } = string.Empty;
 
-    public string Clave { get; set; } = null!;
+        // Guarda el hash de la contraseña (BCrypt), nunca texto plano
+        [Required]
+        [Column("clave")]
+        public string Clave { get; set; } = string.Empty;
 
-    public int IdRol { get; set; }
+        [Required]
+        [Column("id_rol")]
+        public int IdRol { get; set; }
 
-    public bool? Activo { get; set; }
+        [ForeignKey(nameof(IdRol))]
+        public Rol? Rol { get; set; }
 
-    public virtual Role IdRolNavigation { get; set; } = null!;
+        [Column("activo")]
+        public bool Activo { get; set; } = true;
+    }
 }

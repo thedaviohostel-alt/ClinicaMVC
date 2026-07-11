@@ -1,0 +1,55 @@
+@model IEnumerable<Paciente>
+@{
+    ViewData["Title"] = "Pacientes";
+}
+<div class="toolbar">
+    <h2>Pacientes</h2>
+    @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ Nuevo paciente</a>
+    }
+</div>
+
+<form method="get" class="form-group" style="max-width:400px">
+    <input type="text" name="busqueda" placeholder="Buscar por nombre o cédula..." value="@ViewData["Busqueda"]" />
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>F. Nacimiento</th>
+            <th>Teléfono</th>
+            <th>Tipo de sangre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Nombre</td>
+            <td>@p.Cedula</td>
+            <td>@p.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+            <td>@p.Telefono</td>
+            <td>@p.TipoSangre</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@p.IdPaciente" class="btn btn-secondary btn-sm">Ver</a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista"))
+                {
+                    <a asp-action="Edit" asp-route-id="@p.IdPaciente" class="btn btn-primary btn-sm">Editar</a>
+                }
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Delete" asp-route-id="@p.IdPaciente" class="btn btn-danger btn-sm">Eliminar</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if (!Model.Any())
+{
+    <p style="margin-top:16px">No se encontraron pacientes.</p>
+}

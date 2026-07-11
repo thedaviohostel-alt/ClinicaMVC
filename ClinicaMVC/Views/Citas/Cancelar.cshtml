@@ -1,0 +1,16 @@
+@model Cita
+@{
+    ViewData["Title"] = "Cancelar cita";
+}
+<div class="card" style="max-width:600px">
+    <h2>¿Cancelar esta cita?</h2>
+    <div class="alert alert-danger">El paciente y el médico deben ser notificados por otro medio.</div>
+    <p><strong>Paciente:</strong> @Model.Paciente?.Nombre</p>
+    <p><strong>Médico:</strong> @Model.Medico?.Nombre</p>
+    <p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy") @Model.Hora.ToString("hh\\:mm")</p>
+    <form asp-action="Cancelar" method="post">
+        <input type="hidden" asp-for="IdCita" />
+        <button type="submit" class="btn btn-danger">Sí, cancelar cita</button>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </form>
+</div>

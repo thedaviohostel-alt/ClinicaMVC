@@ -1,0 +1,18 @@
+@model Cita
+@{
+    ViewData["Title"] = "Detalle de la cita";
+}
+<div class="card" style="max-width:600px">
+    <h2>Cita #@Model.IdCita</h2>
+    <p><strong>Paciente:</strong> @Model.Paciente?.Nombre</p>
+    <p><strong>Médico:</strong> @Model.Medico?.Nombre (@Model.Medico?.Especialidad)</p>
+    <p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy")</p>
+    <p><strong>Hora:</strong> @Model.Hora.ToString("hh\\:mm")</p>
+    <p><strong>Estado:</strong> @Model.Estado</p>
+    <p><strong>Observaciones:</strong> @Model.Observaciones</p>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    @if (Model.Estado == EstadosCita.Pendiente && (User.IsInRole("Administrador") || User.IsInRole("Medico")))
+    {
+        <a asp-action="Atender" asp-route-id="@Model.IdCita" class="btn btn-primary">Atender cita</a>
+    }
+</div>

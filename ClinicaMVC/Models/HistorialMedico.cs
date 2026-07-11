@@ -1,29 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClinicaMVC.Models;
-
-public partial class HistorialMedico
+namespace ClinicaMVC.Models
 {
-    public int IdHistorial { get; set; }
+    [Table("historial_medico")]
+    public class HistorialMedico
+    {
+        [Key]
+        [Column("id_historial")]
+        public int IdHistorial { get; set; }
 
-    public int IdPaciente { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un paciente")]
+        [Column("id_paciente")]
+        [Display(Name = "Paciente")]
+        public int IdPaciente { get; set; }
 
-    public int IdMedico { get; set; }
+        [ForeignKey(nameof(IdPaciente))]
+        public Paciente? Paciente { get; set; }
 
-    public int? IdCita { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un médico")]
+        [Column("id_medico")]
+        [Display(Name = "Médico")]
+        public int IdMedico { get; set; }
 
-    public DateTime? FechaConsulta { get; set; }
+        [ForeignKey(nameof(IdMedico))]
+        public Medico? Medico { get; set; }
 
-    public string? Sintomas { get; set; }
+        // Opcional: una consulta puede registrarse sin estar vinculada a una cita agendada
+        [Column("id_cita")]
+        [Display(Name = "Cita")]
+        public int? IdCita { get; set; }
 
-    public string? Diagnostico { get; set; }
+        [ForeignKey(nameof(IdCita))]
+        public Cita? Cita { get; set; }
 
-    public string? Tratamiento { get; set; }
+        [Column("fecha_consulta")]
+        [Display(Name = "Fecha de consulta")]
+        public DateTime FechaConsulta { get; set; } = DateTime.Now;
 
-    public virtual Cita? IdCitaNavigation { get; set; }
+        [Column("sintomas")]
+        [Display(Name = "Síntomas")]
+        public string? Sintomas { get; set; }
 
-    public virtual Medico IdMedicoNavigation { get; set; } = null!;
+        [Required(ErrorMessage = "El diagnóstico es obligatorio")]
+        [Column("diagnostico")]
+        [Display(Name = "Diagnóstico")]
+        public string Diagnostico { get; set; } = string.Empty;
 
-    public virtual Paciente IdPacienteNavigation { get; set; } = null!;
+        [Column("tratamiento")]
+        [Display(Name = "Tratamiento")]
+        public string? Tratamiento { get; set; }
+    }
 }

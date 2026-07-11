@@ -1,27 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClinicaMVC.Models;
-
-public partial class Paciente
+namespace ClinicaMVC.Models
 {
-    public int IdPaciente { get; set; }
+    [Table("pacientes")]
+    public class Paciente
+    {
+        [Key]
+        [Column("id_paciente")]
+        public int IdPaciente { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [Column("nombre")]
+        [StringLength(100)]
+        [Display(Name = "Nombre completo")]
+        public string Nombre { get; set; } = string.Empty;
 
-    public string Cedula { get; set; } = null!;
+        [Required(ErrorMessage = "La cédula es obligatoria")]
+        [Column("cedula")]
+        [StringLength(20)]
+        [RegularExpression(@"^\d{3}-?\d{7}-?\d{1}$", ErrorMessage = "Formato de cédula inválido (ej: 001-1234567-8)")]
+        public string Cedula { get; set; } = string.Empty;
 
-    public DateOnly FechaNacimiento { get; set; }
+        [Required(ErrorMessage = "La fecha de nacimiento es obligatoria")]
+        [Column("fecha_nacimiento")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha de nacimiento")]
+        public DateTime FechaNacimiento { get; set; }
 
-    public string? Telefono { get; set; }
+        [Column("telefono")]
+        [StringLength(20)]
+        [Phone(ErrorMessage = "Número de teléfono inválido")]
+        public string? Telefono { get; set; }
 
-    public string? Direccion { get; set; }
+        [Column("direccion")]
+        [StringLength(200)]
+        public string? Direccion { get; set; }
 
-    public string? TipoSangre { get; set; }
+        [Column("tipo_sangre")]
+        [StringLength(5)]
+        [Display(Name = "Tipo de sangre")]
+        public string? TipoSangre { get; set; }
 
-    public DateTime? FechaRegistro { get; set; }
-
-    public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
-
-    public virtual ICollection<HistorialMedico> HistorialMedicos { get; set; } = new List<HistorialMedico>();
+        [Column("fecha_registro")]
+        [Display(Name = "Fecha de registro")]
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+    }
 }

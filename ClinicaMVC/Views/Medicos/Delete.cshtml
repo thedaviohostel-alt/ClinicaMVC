@@ -1,0 +1,15 @@
+@model Medico
+@{
+    ViewData["Title"] = "Eliminar médico";
+}
+<div class="card" style="max-width:600px">
+    <h2>¿Eliminar este médico?</h2>
+    <div class="alert alert-danger">Esta acción no se puede deshacer.</div>
+    <p><strong>Nombre:</strong> @Model.Nombre</p>
+    <p><strong>Especialidad:</strong> @Model.Especialidad</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="IdMedico" />
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

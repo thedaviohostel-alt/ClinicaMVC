@@ -1,0 +1,40 @@
+@model HistorialMedico
+@{
+    ViewData["Title"] = "Registrar consulta";
+}
+<div class="card" style="max-width:600px">
+    <h2>Registrar consulta</h2>
+    <p style="color:#6c757d">Usa esta opción para registrar una consulta directa, sin una cita previamente agendada.</p>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="IdPaciente"></label>
+            <select asp-for="IdPaciente" asp-items="ViewBag.Pacientes">
+                <option value="">Seleccione un paciente...</option>
+            </select>
+            <span asp-validation-for="IdPaciente" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdMedico"></label>
+            <select asp-for="IdMedico" asp-items="ViewBag.Medicos">
+                <option value="">Seleccione un médico...</option>
+            </select>
+            <span asp-validation-for="IdMedico" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sintomas"></label>
+            <textarea asp-for="Sintomas" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Diagnostico"></label>
+            <textarea asp-for="Diagnostico" rows="3"></textarea>
+            <span asp-validation-for="Diagnostico" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Tratamiento"></label>
+            <textarea asp-for="Tratamiento" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

@@ -1,0 +1,85 @@
+@model IEnumerable<Cita>
+@{
+    ViewData["Title"] = "Citas Médicas";
+}
+<div class="toolbar">
+    <h2>Citas Médicas</h2>
+    @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ Nueva cita</a>
+    }
+</div>
+
+<form method="get" class="toolbar" style="justify-content:flex-start; gap:16px;">
+    <div class="form-group" style="margin-bottom:0; max-width:200px;">
+        <input type="date" name="fecha" value="@ViewData["Fecha"]" />
+    </div>
+    <div class="form-group" style="margin-bottom:0; max-width:200px;">
+        <select name="estado" onchange="this.form.submit()">
+            <option value="">Todos los estados</option>
+            <option value="Pendiente" selected="@("Pendiente".Equals(ViewData["Estado"]))">Pendiente</option>
+            <option value="Atendida" selected="@("Atendida".Equals(ViewData["Estado"]))">Atendida</option>
+            <option value="Cancelada" selected="@("Cancelada".Equals(ViewData["Estado"]))">Cancelada</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
+    <a asp-action="Index" class="btn btn-secondary btn-sm">Limpiar</a>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Paciente</th>
+            <th>Médico</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var c in Model)
+    {
+        <tr>
+            <td>@c.Fecha.ToString("dd/MM/yyyy")</td>
+            <td>@c.Hora.ToString("hh\\:mm")</td>
+            <td>@c.Paciente?.Nombre</td>
+            <td>@c.Medico?.Nombre</td>
+            <td>
+                @{
+                    var badgeClass = c.Estado switch
+                    {
+                        "Atendida" => "alert-success",
+                        "Cancelada" => "alert-danger",
+                        _ => "alert-pendiente"
+                    };
+                }
+                <span class="badge @badgeClass">@c.Estado</span>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@c.IdCita" class="btn btn-secondary btn-sm">Ver</a>
+                @if (c.Estado == EstadosCita.Pendiente && (User.IsInRole("Administrador") || User.IsInRole("Medico")))
+                {
+                    <a asp-action="Atender" asp-route-id="@c.IdCita" class="btn btn-primary btn-sm">Atender</a>
+                }
+                @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista"))
+                {
+                    <a asp-action="Edit" asp-route-id="@c.IdCita" class="btn btn-primary btn-sm">Editar</a>
+                    @if (c.Estado == EstadosCita.Pendiente)
+                    {
+                        <a asp-action="Cancelar" asp-route-id="@c.IdCita" class="btn btn-danger btn-sm">Cancelar</a>
+                    }
+                }
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Delete" asp-route-id="@c.IdCita" class="btn btn-danger btn-sm">Eliminar</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if (!Model.Any())
+{
+    <p style="margin-top:16px">No se encontraron citas.</p>
+}

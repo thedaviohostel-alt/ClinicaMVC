@@ -1,25 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ClinicaMVC.Models;
-
-public partial class Medico
+namespace ClinicaMVC.Models
 {
-    public int IdMedico { get; set; }
+    [Table("medicos")]
+    public class Medico
+    {
+        [Key]
+        [Column("id_medico")]
+        public int IdMedico { get; set; }
 
-    public string Nombre { get; set; } = null!;
+        [Required(ErrorMessage = "El nombre es obligatorio")]
+        [Column("nombre")]
+        [StringLength(100)]
+        [Display(Name = "Nombre completo")]
+        public string Nombre { get; set; } = string.Empty;
 
-    public string Cedula { get; set; } = null!;
+        [Required(ErrorMessage = "La cédula es obligatoria")]
+        [Column("cedula")]
+        [StringLength(20)]
+        public string Cedula { get; set; } = string.Empty;
 
-    public string Especialidad { get; set; } = null!;
+        [Required(ErrorMessage = "La especialidad es obligatoria")]
+        [Column("especialidad")]
+        [StringLength(100)]
+        public string Especialidad { get; set; } = string.Empty;
 
-    public string? Telefono { get; set; }
+        [Column("telefono")]
+        [StringLength(20)]
+        [Phone(ErrorMessage = "Número de teléfono inválido")]
+        public string? Telefono { get; set; }
 
-    public string Turno { get; set; } = null!;
+        [Required(ErrorMessage = "El turno es obligatorio")]
+        [Column("turno")]
+        [StringLength(20)]
+        public string Turno { get; set; } = string.Empty; // "Mañana" o "Tarde"
 
-    public DateTime? FechaRegistro { get; set; }
-
-    public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
-
-    public virtual ICollection<HistorialMedico> HistorialMedicos { get; set; } = new List<HistorialMedico>();
+        [Column("fecha_registro")]
+        [Display(Name = "Fecha de registro")]
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+    }
 }

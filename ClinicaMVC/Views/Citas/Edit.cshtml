@@ -1,0 +1,45 @@
+@model Cita
+@{
+    ViewData["Title"] = "Editar cita";
+}
+<div class="card" style="max-width:600px">
+    <h2>Editar cita</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="IdCita" />
+        <div class="form-group">
+            <label asp-for="IdPaciente"></label>
+            <select asp-for="IdPaciente" asp-items="ViewBag.Pacientes"></select>
+            <span asp-validation-for="IdPaciente" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdMedico"></label>
+            <select asp-for="IdMedico" asp-items="ViewBag.Medicos"></select>
+            <span asp-validation-for="IdMedico" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Fecha"></label>
+            <input asp-for="Fecha" type="date" value="@Model.Fecha.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Hora"></label>
+            <input asp-for="Hora" type="time" value="@Model.Hora.ToString("HH:mm")" />
+            <span asp-validation-for="Hora" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Estado"></label>
+            <select asp-for="Estado">
+                <option>Pendiente</option>
+                <option>Atendida</option>
+                <option>Cancelada</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Observaciones"></label>
+            <textarea asp-for="Observaciones" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

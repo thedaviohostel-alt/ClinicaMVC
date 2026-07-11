@@ -1,28 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Dashboard";
+@{
+    ViewData["Title"] = "Inicio";
 }
-
-<div class="row g-4">
-
-    <div class="col-md-4">
-        <div class="dashboard-card">
-            <h6>Total pacientes</h6>
-            <h2>150</h2>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="dashboard-card">
-            <h6>Total médicos</h6>
-            <h2>24</h2>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="dashboard-card">
-            <h6>Total citas</h6>
-            <h2>320</h2>
-        </div>
-    </div>
-
+<div class="card">
+    <h2>Bienvenido/a, @User.Identity!.Name</h2>
+    <p>Tu rol actual es <strong>@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</strong>.</p>
+    <p>Desde el menú superior puedes acceder a los módulos disponibles según tu rol:</p>
+    <ul>
+        <li><strong>Pacientes</strong>: registro y consulta de pacientes.</li>
+        <li><strong>Médicos</strong>: gestión del personal médico y especialidades.</li>
+        <li><strong>Citas</strong>: agenda de citas, control de disponibilidad y atención.</li>
+        <li><strong>Historial</strong>: historial clínico por paciente (síntomas, diagnóstico, tratamiento).</li>
+        <li><strong>Reportes</strong>: exportación de pacientes y citas en PDF y Excel.</li>
+    </ul>
 </div>

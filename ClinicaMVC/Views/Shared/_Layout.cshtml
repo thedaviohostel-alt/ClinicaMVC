@@ -1,95 +1,45 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema de Clínica</title>
-
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - Clínica</title>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-
 <body>
+    <header class="navbar">
+        <div class="navbar-brand">🏥 Sistema de Gestión de Clínica</div>
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <nav class="navbar-links">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista") || User.IsInRole("Medico"))
+                {
+                    <a asp-controller="Pacientes" asp-action="Index">Pacientes</a>
+                }
+                @if (User.IsInRole("Administrador") || User.IsInRole("Recepcionista"))
+                {
+                    <a asp-controller="Medicos" asp-action="Index">Médicos</a>
+                }
+                <a asp-controller="Citas" asp-action="Index">Citas</a>
+                <a asp-controller="HistorialMedico" asp-action="Index">Historial</a>
+                <a asp-controller="Reportes" asp-action="Index">Reportes</a>
+                <span class="navbar-user">👤 @User.Identity.Name (@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)</span>
+                <a asp-controller="Account" asp-action="Logout" class="btn-logout">Cerrar sesión</a>
+            </nav>
+        }
+    </header>
 
-    <div class="d-flex">
+    <main class="container">
+        @if (TempData["Mensaje"] != null)
+        {
+            <div class="alert alert-success">@TempData["Mensaje"]</div>
+        }
+        @RenderBody()
+    </main>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-
-            <div class="logo text-center">
-                <h5>Sistema Clínica</h5>
-            </div>
-
-            <ul class="nav flex-column mt-4">
-
-                <li class="nav-item">
-                    <a class="nav-link">
-                        Dashboard
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Pacientes">
-                        Pacientes
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Medicos">
-                        Médicos
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Citas">
-                        Citas
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Historial">
-                        Historial
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Usuarios">
-                        Usuarios
-                    </a>
-                </li>
-
-            </ul>
-
-            <div class="logout">
-                <a href="/" class="nav-link">
-                    Cerrar sesión
-                </a>
-            </div>
-
-        </div>
-
-        <!-- Contenido -->
-        <div class="content">
-
-            <div class="topbar">
-
-                <div>
-                    <h4>@ViewData["Title"]</h4>
-                </div>
-
-                <div class="user-card">
-                    Administrador
-                </div>
-
-            </div>
-
-            @RenderBody()
-
-        </div>
-
-    </div>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+    <footer class="footer">
+        <p>Sistema de Gestión de Clínica &copy; 2026 - Programación III, UAPA</p>
+    </footer>
 </body>
 </html>

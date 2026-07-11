@@ -1,0 +1,14 @@
+@model Paciente
+@{
+    ViewData["Title"] = "Detalle del paciente";
+}
+<div class="card" style="max-width:600px">
+    <h2>@Model.Nombre</h2>
+    <p><strong>Cédula:</strong> @Model.Cedula</p>
+    <p><strong>Fecha de nacimiento:</strong> @Model.FechaNacimiento.ToString("dd/MM/yyyy")</p>
+    <p><strong>Teléfono:</strong> @Model.Telefono</p>
+    <p><strong>Dirección:</strong> @Model.Direccion</p>
+    <p><strong>Tipo de sangre:</strong> @Model.TipoSangre</p>
+    <p><strong>Registrado el:</strong> @Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</p>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>

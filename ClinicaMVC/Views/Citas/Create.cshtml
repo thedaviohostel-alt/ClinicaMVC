@@ -1,0 +1,40 @@
+@model Cita
+@{
+    ViewData["Title"] = "Nueva cita";
+}
+<div class="card" style="max-width:600px">
+    <h2>Nueva cita</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="IdPaciente"></label>
+            <select asp-for="IdPaciente" asp-items="ViewBag.Pacientes">
+                <option value="">Seleccione un paciente...</option>
+            </select>
+            <span asp-validation-for="IdPaciente" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="IdMedico"></label>
+            <select asp-for="IdMedico" asp-items="ViewBag.Medicos">
+                <option value="">Seleccione un médico...</option>
+            </select>
+            <span asp-validation-for="IdMedico" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Fecha"></label>
+            <input asp-for="Fecha" type="date" />
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Hora"></label>
+            <input asp-for="Hora" type="time" />
+            <span asp-validation-for="Hora" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Observaciones"></label>
+            <textarea asp-for="Observaciones" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Agendar cita</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

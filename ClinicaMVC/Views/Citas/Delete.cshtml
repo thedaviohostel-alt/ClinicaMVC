@@ -1,0 +1,16 @@
+@model Cita
+@{
+    ViewData["Title"] = "Eliminar cita";
+}
+<div class="card" style="max-width:600px">
+    <h2>¿Eliminar esta cita?</h2>
+    <div class="alert alert-danger">Esta acción no se puede deshacer.</div>
+    <p><strong>Paciente:</strong> @Model.Paciente?.Nombre</p>
+    <p><strong>Médico:</strong> @Model.Medico?.Nombre</p>
+    <p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy") @Model.Hora.ToString("hh\\:mm")</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="IdCita" />
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

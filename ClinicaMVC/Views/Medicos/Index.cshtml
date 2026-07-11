@@ -1,0 +1,52 @@
+@model IEnumerable<Medico>
+@{
+    ViewData["Title"] = "Médicos";
+}
+<div class="toolbar">
+    <h2>Médicos</h2>
+    @if (User.IsInRole("Administrador"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ Nuevo médico</a>
+    }
+</div>
+
+<form method="get" class="form-group" style="max-width:400px">
+    <input type="text" name="busqueda" placeholder="Buscar por nombre o especialidad..." value="@ViewData["Busqueda"]" />
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Especialidad</th>
+            <th>Turno</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td>@m.Nombre</td>
+            <td>@m.Cedula</td>
+            <td>@m.Especialidad</td>
+            <td>@m.Turno</td>
+            <td>@m.Telefono</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@m.IdMedico" class="btn btn-secondary btn-sm">Ver</a>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a asp-action="Edit" asp-route-id="@m.IdMedico" class="btn btn-primary btn-sm">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@m.IdMedico" class="btn btn-danger btn-sm">Eliminar</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+@if (!Model.Any())
+{
+    <p style="margin-top:16px">No se encontraron médicos.</p>
+}
