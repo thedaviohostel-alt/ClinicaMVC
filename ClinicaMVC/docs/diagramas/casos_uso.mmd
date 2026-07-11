@@ -1,0 +1,43 @@
+flowchart TB
+    Admin([Administrador])
+    Recep([Recepcionista])
+    Medico([Médico])
+
+    subgraph Sistema de Gestión de Clínica
+        UC1[Iniciar sesión]
+        UC2[Gestionar Pacientes CRUD]
+        UC3[Gestionar Médicos CRUD]
+        UC4[Agendar Cita]
+        UC5[Verificar disponibilidad del médico]
+        UC6[Editar / Cancelar Cita]
+        UC7[Atender Cita]
+        UC8[Registrar Historial Médico]
+        UC9[Consultar Historial por paciente]
+        UC10[Generar Reporte de Pacientes]
+        UC11[Generar Reporte de Citas por fecha]
+    end
+
+    Admin --> UC1
+    Recep --> UC1
+    Medico --> UC1
+    Admin --> UC2
+    Recep --> UC2
+    Medico --> UC2
+    Admin --> UC3
+    Admin --> UC4
+    Recep --> UC4
+    UC4 --> UC5
+    Admin --> UC6
+    Recep --> UC6
+    Admin --> UC7
+    Medico --> UC7
+    UC7 --> UC8
+    Admin --> UC9
+    Recep --> UC9
+    Medico --> UC9
+    Admin --> UC10
+    Recep --> UC10
+    Medico --> UC10
+    Admin --> UC11
+    Recep --> UC11
+    Medico --> UC11

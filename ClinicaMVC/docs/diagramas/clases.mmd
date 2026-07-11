@@ -1,0 +1,56 @@
+classDiagram
+    class Rol {
+        +int IdRol
+        +string NombreRol
+    }
+    class Usuario {
+        +int IdUsuario
+        +string NombreUsuario
+        +string Clave
+        +int IdRol
+        +bool Activo
+    }
+    class Paciente {
+        +int IdPaciente
+        +string Nombre
+        +string Cedula
+        +DateTime FechaNacimiento
+        +string Telefono
+        +string Direccion
+        +string TipoSangre
+        +DateTime FechaRegistro
+    }
+    class Medico {
+        +int IdMedico
+        +string Nombre
+        +string Cedula
+        +string Especialidad
+        +string Telefono
+        +string Turno
+        +DateTime FechaRegistro
+    }
+    class Cita {
+        +int IdCita
+        +int IdPaciente
+        +int IdMedico
+        +DateTime Fecha
+        +TimeOnly Hora
+        +string Estado
+        +string Observaciones
+    }
+    class HistorialMedico {
+        +int IdHistorial
+        +int IdPaciente
+        +int IdMedico
+        +int IdCita
+        +DateTime FechaConsulta
+        +string Sintomas
+        +string Diagnostico
+        +string Tratamiento
+    }
+    Usuario --> Rol : tiene
+    Cita --> Paciente : pertenece a
+    Cita --> Medico : atendida por
+    HistorialMedico --> Paciente : pertenece a
+    HistorialMedico --> Medico : registrado por
+    HistorialMedico --> Cita : origina de

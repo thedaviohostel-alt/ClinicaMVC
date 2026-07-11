@@ -1,0 +1,46 @@
+## .NET / ASP.NET Core
+
+# Compilación
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Secretos y configuración local (mantener appsettings.json de ejemplo sin credenciales reales)
+appsettings.Development.json
+appsettings.Local.json
+*.env
+
+# Logs
+*.log
+logs/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# Publicación
+publish/
+*.PublishSettings
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Reportes generados en tiempo de ejecución (no versionar salidas de prueba)
+*.pdf
+!docs/**/*.pdf
