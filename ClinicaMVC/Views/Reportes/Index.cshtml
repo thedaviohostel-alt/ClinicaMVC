@@ -1,0 +1,38 @@
+@model ReporteCitasFiltroViewModel
+@{
+    ViewData["Title"] = "Reportes";
+}
+<h2>Reportes</h2>
+
+<div class="card" style="max-width:600px">
+    <h3>Listado de pacientes</h3>
+    <p style="color:#6c757d">Exporta el listado completo de pacientes registrados.</p>
+    <a asp-action="PacientesPdf" class="btn btn-primary" target="_blank">Descargar PDF</a>
+    <a asp-action="PacientesExcel" class="btn btn-secondary">Descargar Excel</a>
+</div>
+
+<div class="card" style="max-width:600px">
+    <h3>Citas por rango de fechas</h3>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="CitasPdf" method="post" id="formReporteCitas">
+        <div class="form-group">
+            <label asp-for="FechaInicio"></label>
+            <input asp-for="FechaInicio" type="date" value="@Model.FechaInicio.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group">
+            <label asp-for="FechaFin"></label>
+            <input asp-for="FechaFin" type="date" value="@Model.FechaFin.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Estado"></label>
+            <select asp-for="Estado">
+                <option value="">Todos los estados</option>
+                <option>Pendiente</option>
+                <option>Atendida</option>
+                <option>Cancelada</option>
+            </select>
+        </div>
+        <button type="submit" formaction="@Url.Action("CitasPdf")" class="btn btn-primary">Descargar PDF</button>
+        <button type="submit" formaction="@Url.Action("CitasExcel")" class="btn btn-secondary">Descargar Excel</button>
+    </form>
+</div>
